@@ -1,10 +1,8 @@
 package main
 
 import (
-	"budget4home/src/controllers"
-	"budget4home/src/repositories"
-	"budget4home/src/services"
-	"fmt"
+	"budget4home/src/config"
+	"budget4home/src/label"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -17,16 +15,16 @@ func HomePage(c *gin.Context) {
 }
 
 func main() {
-	fmt.Println("Hello world")
+	db := config.PrepareDb()
 
 	r := gin.Default()
 	r.GET("/", HomePage)
 
 	api := r.Group("/v1")
 
-	repo := repositories.NewLabelRepository()
-	service := services.NewLabelService(repo)
-	controllers.NewLabelController(api, service)
+	repo := label.NewRepository(db)
+	service := label.NewService(repo)
+	label.NewController(api, service)
 
 	if len(os.Getenv("PORT")) == 0 {
 		// set default port

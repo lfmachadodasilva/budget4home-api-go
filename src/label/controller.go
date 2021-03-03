@@ -1,16 +1,14 @@
-package controllers
+package label
 
 import (
-	"budget4home/src/services"
-
 	"github.com/gin-gonic/gin"
 )
 
 type LabelController struct {
-	service services.ILabelService
+	service ILabelService
 }
 
-func NewLabelController(r *gin.RouterGroup, service services.ILabelService) {
+func NewController(r *gin.RouterGroup, service ILabelService) {
 	controller := &LabelController{
 		service: service,
 	}
