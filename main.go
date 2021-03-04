@@ -18,14 +18,14 @@ import (
 // @description Project to control budget for home
 
 // @host localhost:5000
-// @BasePath /v1
+// @BasePath /api
 
 func main() {
 	db := config.PrepareDb()
 
 	r := gin.Default()
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	api := r.Group("/v1")
+	api := r.Group("/api")
 
 	{ // labels
 		repo := label.NewRepository(db)

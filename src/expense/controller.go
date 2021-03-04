@@ -9,9 +9,8 @@ type ExpenseController struct {
 
 func NewController(r *gin.RouterGroup) {
 	controller := &ExpenseController{}
-	e := r.Group("/expenses")
-	e.GET("/expenses", controller.Fetch)
-	e.GET("/expenses/full", controller.FetchFull)
+	r.GET("/expenses", controller.Fetch)
+	r.GET("/expenses/full", controller.FetchFull)
 }
 
 // GetExpenses godoc
@@ -20,7 +19,7 @@ func NewController(r *gin.RouterGroup) {
 // @Tags expenses
 // @Accept  json
 // @Produce  json
-// @Router /api/expenses [get]
+// @Router /expenses [get]
 func (this *ExpenseController) Fetch(c *gin.Context) {
 	c.JSON(200, nil)
 }
@@ -30,7 +29,7 @@ func (this *ExpenseController) Fetch(c *gin.Context) {
 // @Tags expenses
 // @Accept  json
 // @Produce  json
-// @Router /api/expenses/full [get]
+// @Router /expenses/full [get]
 func (this *ExpenseController) FetchFull(c *gin.Context) {
 	c.JSON(200, nil)
 }

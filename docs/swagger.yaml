@@ -1,4 +1,4 @@
-basePath: /v1
+basePath: /api
 host: localhost:5000
 info:
   contact: {}
@@ -25,7 +25,7 @@ paths:
       summary: Show a list of expenses with full details
       tags:
       - expenses
-  /api/labels:
+  /labels:
     get:
       consumes:
       - application/json
@@ -38,11 +38,15 @@ paths:
           schema:
             type: string
       summary: Show a list of labels
-  /api/labels/full:
+      tags:
+      - Labels
+  /labels/full:
     get:
       consumes:
       - application/json
       produces:
       - application/json
       summary: Show a list of labels with full details
+      tags:
+      - Labels
 swagger: "2.0"

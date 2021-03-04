@@ -7,7 +7,7 @@
         "version": "1.0"
     },
     "host": "localhost:5000",
-    "basePath": "/v1",
+    "basePath": "/api",
     "paths": {
         "/api/expenses": {
             "get": {
@@ -38,7 +38,7 @@
                 "summary": "Show a list of expenses with full details"
             }
         },
-        "/api/labels": {
+        "/labels": {
             "get": {
                 "description": "get list of labels",
                 "consumes": [
@@ -46,6 +46,9 @@
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Labels"
                 ],
                 "summary": "Show a list of labels",
                 "responses": {
@@ -58,13 +61,16 @@
                 }
             }
         },
-        "/api/labels/full": {
+        "/labels/full": {
             "get": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Labels"
                 ],
                 "summary": "Show a list of labels with full details"
             }

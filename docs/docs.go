@@ -53,7 +53,7 @@ var doc = `{
                 "summary": "Show a list of expenses with full details"
             }
         },
-        "/api/labels": {
+        "/labels": {
             "get": {
                 "description": "get list of labels",
                 "consumes": [
@@ -61,6 +61,9 @@ var doc = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Labels"
                 ],
                 "summary": "Show a list of labels",
                 "responses": {
@@ -73,13 +76,16 @@ var doc = `{
                 }
             }
         },
-        "/api/labels/full": {
+        "/labels/full": {
             "get": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Labels"
                 ],
                 "summary": "Show a list of labels with full details"
             }
@@ -100,7 +106,7 @@ type swaggerInfo struct {
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
 	Host:        "localhost:5000",
-	BasePath:    "/v1",
+	BasePath:    "/api",
 	Schemes:     []string{},
 	Title:       "budget4home API",
 	Description: "Project to control budget for home",
