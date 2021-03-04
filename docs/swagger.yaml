@@ -1,0 +1,48 @@
+basePath: /v1
+host: localhost:5000
+info:
+  contact: {}
+  description: Project to control budget for home
+  title: budget4home API
+  version: "1.0"
+paths:
+  /api/expenses:
+    get:
+      consumes:
+      - application/json
+      description: get list of expenses
+      produces:
+      - application/json
+      summary: Show a list of expenses
+      tags:
+      - expenses
+  /api/expenses/full:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      summary: Show a list of expenses with full details
+      tags:
+      - expenses
+  /api/labels:
+    get:
+      consumes:
+      - application/json
+      description: get list of labels
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Show a list of labels
+  /api/labels/full:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      summary: Show a list of labels with full details
+swagger: "2.0"
