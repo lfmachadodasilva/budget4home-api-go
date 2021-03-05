@@ -1,6 +1,8 @@
 package expense
 
 import (
+	"budget4home/src/middleware"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,11 +11,12 @@ type ExpenseController struct {
 
 func NewController(r *gin.RouterGroup) {
 	controller := &ExpenseController{}
-	r.GET("/expenses", controller.Fetch)
-	r.GET("/expenses/full", controller.FetchFull)
+	r.GET("/expenses", middleware.AuthMiddleware, controller.Fetch)
+	r.GET("/expenses/full", middleware.AuthMiddleware, controller.FetchFull)
 }
 
 // GetExpenses godoc
+// @Security ApiKeyAuth
 // @Summary Show a list of expenses
 // @Description get list of expenses
 // @Tags expenses
@@ -25,6 +28,7 @@ func (this *ExpenseController) Fetch(c *gin.Context) {
 }
 
 // GetExpensesFull godoc
+// @Security ApiKeyAuth
 // @Summary Show a list of expenses with full details
 // @Tags expenses
 // @Accept  json

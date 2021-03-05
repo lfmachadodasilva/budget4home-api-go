@@ -2,26 +2,31 @@ basePath: /api
 host: localhost:5000
 info:
   contact: {}
-  description: Project to control budget for home
+  description: 'Project to control budget for home.\n\nAuthorization header: insert
+    your access token default (Bearer TOKEN)'
   title: budget4home API
   version: "1.0"
 paths:
-  /api/expenses:
+  /expenses:
     get:
       consumes:
       - application/json
       description: get list of expenses
       produces:
       - application/json
+      security:
+      - ApiKeyAuth: []
       summary: Show a list of expenses
       tags:
       - expenses
-  /api/expenses/full:
+  /expenses/full:
     get:
       consumes:
       - application/json
       produces:
       - application/json
+      security:
+      - ApiKeyAuth: []
       summary: Show a list of expenses with full details
       tags:
       - expenses
@@ -37,6 +42,8 @@ paths:
           description: ok
           schema:
             type: string
+      security:
+      - ApiKeyAuth: []
       summary: Show a list of labels
       tags:
       - Labels
@@ -49,4 +56,26 @@ paths:
       summary: Show a list of labels with full details
       tags:
       - Labels
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: get list of users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Show a list of users
+      tags:
+      - Users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

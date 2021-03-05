@@ -4,6 +4,7 @@ import (
 	"budget4home/src/config"
 	"budget4home/src/expense"
 	"budget4home/src/label"
+	"budget4home/src/user"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -15,15 +16,28 @@ import (
 
 // @title budget4home API
 // @version 1.0
-// @description Project to control budget for home
+// @description Project to control budget for home.\n\nAuthorization header: insert your access token default (Bearer TOKEN)
 
 // @host localhost:5000
 // @BasePath /api
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 
 func main() {
-	db := config.PrepareDb()
+	db := config.SetupDb()
+	app, auth := config.SetupFirebase()
 
 	r := gin.Default()
+
+	{ // set global params into context
+		r.Use(func(c *gin.Context) {
+			c.Set("db", db)
+			c.Set("firebaseApp", app)
+			c.Set("firebaseAuth", auth)
+		})
+	}
+
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	api := r.Group("/api")
 
@@ -35,6 +49,12 @@ func main() {
 
 	{ // expenses
 		expense.NewController(api)
+	}
+
+	{ // users
+		repo := user.NewRepository(auth)
+		service := user.NewService(repo)
+		user.NewController(api, service)
 	}
 
 	if len(os.Getenv("PORT")) == 0 {

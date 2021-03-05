@@ -1,6 +1,8 @@
 package label
 
 import (
+	"budget4home/src/middleware"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,11 +14,12 @@ func NewController(r *gin.RouterGroup, service ILabelService) {
 	controller := &LabelController{
 		service: service,
 	}
-	r.GET("/labels", controller.Fetch)
-	r.GET("/labels/full", controller.FetchFull)
+	r.GET("/labels", middleware.AuthMiddleware, controller.Fetch)
+	r.GET("/labels/full", middleware.AuthMiddleware, controller.FetchFull)
 }
 
 // GetLabels godoc
+// @Security ApiKeyAuth
 // @Summary Show a list of labels
 // @Description get list of labels
 // @Tags Labels
