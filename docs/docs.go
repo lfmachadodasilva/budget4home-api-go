@@ -24,8 +24,13 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/expenses": {
+        "/expenses": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get list of expenses",
                 "consumes": [
                     "application/json"
@@ -39,8 +44,13 @@ var doc = `{
                 "summary": "Show a list of expenses"
             }
         },
-        "/api/expenses/full": {
+        "/expenses/full": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -55,6 +65,11 @@ var doc = `{
         },
         "/labels": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get list of labels",
                 "consumes": [
                     "application/json"
@@ -89,6 +104,41 @@ var doc = `{
                 ],
                 "summary": "Show a list of labels with full details"
             }
+        },
+        "/users": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "get list of users",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Show a list of users",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`
@@ -109,7 +159,7 @@ var SwaggerInfo = swaggerInfo{
 	BasePath:    "/api",
 	Schemes:     []string{},
 	Title:       "budget4home API",
-	Description: "Project to control budget for home",
+	Description: "Project to control budget for home.\\n\\nAuthorization header: insert your access token default (Bearer TOKEN)",
 }
 
 type s struct{}
