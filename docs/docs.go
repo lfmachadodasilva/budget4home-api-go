@@ -31,7 +31,6 @@ var doc = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get list of expenses",
                 "consumes": [
                     "application/json"
                 ],
@@ -39,9 +38,56 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "expenses"
+                    "Expenses"
+                ]
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
                 ],
-                "summary": "Show a list of expenses"
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Expenses"
+                ]
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Expenses"
+                ]
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Expenses"
+                ]
             }
         },
         "/expenses/full": {
@@ -58,19 +104,96 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "expenses"
-                ],
-                "summary": "Show a list of expenses with full details"
+                    "Expenses"
+                ]
             }
         },
-        "/labels": {
+        "/groups": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get list of labels",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Groups"
+                ]
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Groups"
+                ]
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Groups"
+                ]
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Groups"
+                ]
+            }
+        },
+        "/groups/full": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Groups"
+                ]
+            }
+        },
+        "/labels": {
+            "get": {
                 "consumes": [
                     "application/json"
                 ],
@@ -80,7 +203,6 @@ var doc = `{
                 "tags": [
                     "Labels"
                 ],
-                "summary": "Show a list of labels",
                 "responses": {
                     "200": {
                         "description": "ok",
@@ -89,6 +211,39 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Labels"
+                ]
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Labels"
+                ]
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Labels"
+                ]
             }
         },
         "/labels/full": {
@@ -101,8 +256,7 @@ var doc = `{
                 ],
                 "tags": [
                     "Labels"
-                ],
-                "summary": "Show a list of labels with full details"
+                ]
             }
         },
         "/users": {

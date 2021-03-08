@@ -1,6 +1,13 @@
 package label
 
+import (
+	"budget4home/src/group"
+)
+
 type Label struct {
-	Id   int    `json:"id" gorm:"primary_key"`
-	Name string `json:"name"`
+	Id   int `gorm:"primaryKey"`
+	Name string
+
+	GroupId int
+	Group   group.Group `gorm:"foreignKey:GroupId"`
 }

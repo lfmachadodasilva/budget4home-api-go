@@ -8,17 +8,42 @@ info:
   version: "1.0"
 paths:
   /expenses:
-    get:
+    delete:
       consumes:
       - application/json
-      description: get list of expenses
       produces:
       - application/json
       security:
       - ApiKeyAuth: []
-      summary: Show a list of expenses
       tags:
-      - expenses
+      - Expenses
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Expenses
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Expenses
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Expenses
   /expenses/full:
     get:
       consumes:
@@ -27,14 +52,66 @@ paths:
       - application/json
       security:
       - ApiKeyAuth: []
-      summary: Show a list of expenses with full details
       tags:
-      - expenses
-  /labels:
+      - Expenses
+  /groups:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Groups
     get:
       consumes:
       - application/json
-      description: get list of labels
+      produces:
+      - application/json
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Groups
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Groups
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Groups
+  /groups/full:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      security:
+      - ApiKeyAuth: []
+      tags:
+      - Groups
+  /labels:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - Labels
+    get:
+      consumes:
+      - application/json
       produces:
       - application/json
       responses:
@@ -42,9 +119,20 @@ paths:
           description: ok
           schema:
             type: string
-      security:
-      - ApiKeyAuth: []
-      summary: Show a list of labels
+      tags:
+      - Labels
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      tags:
+      - Labels
+    put:
+      consumes:
+      - application/json
+      produces:
+      - application/json
       tags:
       - Labels
   /labels/full:
@@ -53,7 +141,6 @@ paths:
       - application/json
       produces:
       - application/json
-      summary: Show a list of labels with full details
       tags:
       - Labels
   /users:

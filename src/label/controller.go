@@ -14,33 +14,57 @@ func NewController(r *gin.RouterGroup, service ILabelService) {
 	controller := &LabelController{
 		service: service,
 	}
-	r.GET("/labels", middleware.AuthMiddleware, controller.Fetch)
-	r.GET("/labels/full", middleware.AuthMiddleware, controller.FetchFull)
+	r.GET("/labels", controller.Get)
+	r.GET("/labels/full", middleware.AuthMiddleware, controller.GetFull)
+	r.POST("/labels", middleware.AuthMiddleware, controller.Post)
+	r.PUT("/labels", middleware.AuthMiddleware, controller.Put)
+	r.DELETE("/labels", middleware.AuthMiddleware, controller.Delete)
 }
 
 // GetLabels godoc
-// @Security ApiKeyAuth
-// @Summary Show a list of labels
-// @Description get list of labels
 // @Tags Labels
-// @Accept  json
-// @Produce  json
+// @Accept json
+// @Produce json
 // @Success 200 {string} string "ok"
 // @Router /labels [get]
-func (this *LabelController) Fetch(c *gin.Context) {
+func (this *LabelController) Get(c *gin.Context) {
 	labels, _ := this.service.Fetch()
 	c.JSON(200, labels)
-	// c.JSON(200, gin.H{"data": labels})
 }
 
 // GetLabelsFull godoc
-// @Summary Show a list of labels with full details
 // @Tags Labels
-// @Accept  json
-// @Produce  json
+// @Accept json
+// @Produce json
 // @Router /labels/full [get]
-func (this *LabelController) FetchFull(c *gin.Context) {
+func (this *LabelController) GetFull(c *gin.Context) {
 	labels, _ := this.service.Fetch()
 	c.JSON(200, labels)
-	// c.JSON(200, gin.H{"data": labels})
+}
+
+// PostLabels godoc
+// @Tags Labels
+// @Accept json
+// @Produce json
+// @Router /labels [post]
+func (this *LabelController) Post(c *gin.Context) {
+	c.JSON(200, nil)
+}
+
+// PutLabels godoc
+// @Tags Labels
+// @Accept json
+// @Produce json
+// @Router /labels [put]
+func (this *LabelController) Put(c *gin.Context) {
+	c.JSON(200, nil)
+}
+
+// DeleteLabels godoc
+// @Tags Labels
+// @Accept json
+// @Produce json
+// @Router /labels [delete]
+func (this *LabelController) Delete(c *gin.Context) {
+	c.JSON(200, nil)
 }

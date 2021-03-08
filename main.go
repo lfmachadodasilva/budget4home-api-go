@@ -3,6 +3,7 @@ package main
 import (
 	"budget4home/src/config"
 	"budget4home/src/expense"
+	"budget4home/src/group"
 	"budget4home/src/label"
 	"budget4home/src/user"
 	"os"
@@ -49,6 +50,10 @@ func main() {
 
 	{ // expenses
 		expense.NewController(api)
+	}
+
+	{ // groups
+		group.NewController(api)
 	}
 
 	{ // users

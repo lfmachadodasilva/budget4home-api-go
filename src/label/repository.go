@@ -20,6 +20,7 @@ func NewRepository(db *gorm.DB) ILabelRepository {
 
 func (this *LabelRepository) Fetch() ([]Label, error) {
 	var labels []Label
-	res := this.db.Find(&labels)
-	return labels, res.Error
+	// var groups []group.Group
+	this.db.Preload("Group").Find(&labels)
+	return labels, nil
 }

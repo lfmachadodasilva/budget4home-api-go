@@ -1,6 +1,8 @@
 package config
 
 import (
+	"budget4home/src/expense"
+	"budget4home/src/group"
 	"budget4home/src/label"
 	"context"
 	"fmt"
@@ -25,8 +27,10 @@ func SetupDb() *gorm.DB {
 	}
 
 	db.AutoMigrate(&label.Label{})
-	// TODO add expense db.AutoMigrate(&expense.Expense{})
-	// TODO add group db.AutoMigrate(&group.Group{})
+	db.AutoMigrate(&expense.Expense{})
+	db.AutoMigrate(&group.Group{})
+	db.AutoMigrate(&group.GroupUser{})
+
 	return db
 }
 
