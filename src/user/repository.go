@@ -23,19 +23,25 @@ func NewRepository(firebaseAuth *auth.Client) IUserRepository {
 }
 
 func (this *UserRepository) Fetch(c *gin.Context) ([]User, error) {
-	// firebaseAuth := c.MustGet("FirebaseAuth").(*auth.Client)
-
+	var usersResult []User = []User{}
+	var errResult error = nil
 	iter := this.firebaseAuth.Users(c, "")
 	for {
 		user, err := iter.Next()
 		if err == iterator.Done {
+			errResult = err
 			break
 		}
 		if err != nil {
 			log.Fatalf("error listing users: %s\n", err)
 		}
-		log.Printf("read user user: %v\n", user)
+		usersResult = append(usersResult, User{
+			Id:       user.UID,
+			Name:     user.DisplayName,
+			Email:    user.Email,
+			PhotoUrl: user.PhotoURL,
+		})
 	}
 
-	return nil, nil
+	return usersResult, errResult
 }
