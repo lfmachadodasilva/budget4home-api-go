@@ -44,7 +44,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/expense.Expense"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/expense.Expense"
+                            }
                         }
                     }
                 }
@@ -136,7 +139,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/group.Group"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/group.Group"
+                            }
                         }
                     }
                 }
@@ -205,7 +211,18 @@ var doc = `{
                 ],
                 "tags": [
                     "Groups"
-                ]
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/group.FullResponse"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/labels": {
@@ -228,7 +245,10 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/label.Label"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/label.Label"
+                            }
                         }
                     }
                 }
@@ -354,6 +374,23 @@ var doc = `{
                 "name": {
                     "description": "gorm.Model",
                     "type": "string"
+                }
+            }
+        },
+        "group.FullResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/user.User"
+                    }
                 }
             }
         },

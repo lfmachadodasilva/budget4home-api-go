@@ -33,14 +33,17 @@ func (this *GroupController) Get(c *gin.Context) {
 	c.JSON(200, groups)
 }
 
+// GetFull get all groups full
 // GetGroupsFull godoc
 // @Security ApiKeyAuth
 // @Tags Groups
 // @Accept json
 // @Produce json
+// @Success 200 {object} []group.FullResponse
 // @Router /groups/full [get]
-func (this *GroupController) GetFull(c *gin.Context) {
-	c.JSON(200, nil)
+func (con *GroupController) GetFull(c *gin.Context) {
+	groups, _ := con.service.FetchFull(c)
+	c.JSON(200, groups)
 }
 
 // PostGroups godoc

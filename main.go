@@ -54,16 +54,15 @@ func main() {
 		expense.NewController(api, service)
 	}
 
+	// users
+	repo := user.NewRepository(auth)
+	service := user.NewService(repo)
+	user.NewController(api, service)
+
 	{ // groups
 		repo := group.NewRepository(db)
-		service := group.NewService(repo)
+		service := group.NewService(repo, service)
 		group.NewController(api, service)
-	}
-
-	{ // users
-		repo := user.NewRepository(auth)
-		service := user.NewService(repo)
-		user.NewController(api, service)
 	}
 
 	if len(os.Getenv("PORT")) == 0 {

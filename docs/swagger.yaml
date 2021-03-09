@@ -16,6 +16,17 @@ definitions:
         description: gorm.Model
         type: string
     type: object
+  group.FullResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/user.User'
+        type: array
+    type: object
   group.Group:
     properties:
       id:
@@ -85,7 +96,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/expense.Expense'
+            items:
+              $ref: '#/definitions/expense.Expense'
+            type: array
       security:
       - ApiKeyAuth: []
       tags:
@@ -137,7 +150,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/group.Group'
+            items:
+              $ref: '#/definitions/group.Group'
+            type: array
       security:
       - ApiKeyAuth: []
       tags:
@@ -166,6 +181,13 @@ paths:
       - application/json
       produces:
       - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/group.FullResponse'
+            type: array
       security:
       - ApiKeyAuth: []
       tags:
@@ -189,7 +211,9 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/label.Label'
+            items:
+              $ref: '#/definitions/label.Label'
+            type: array
       security:
       - ApiKeyAuth: []
       tags:

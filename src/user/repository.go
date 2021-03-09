@@ -8,24 +8,29 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+// IUserRepository user repository interface
 type IUserRepository interface {
 	Fetch(c *gin.Context) (res []User, err error)
+	FetchByID(c *gin.Context, ids *map[string]*User) (err error)
 }
 
-type UserRepository struct {
+// Repository user repository
+type Repository struct {
 	firebaseAuth *auth.Client
 }
 
+// NewRepository constructor
 func NewRepository(firebaseAuth *auth.Client) IUserRepository {
-	return &UserRepository{
+	return &Repository{
 		firebaseAuth: firebaseAuth,
 	}
 }
 
-func (this *UserRepository) Fetch(c *gin.Context) ([]User, error) {
+// Fetch return all users
+func (r *Repository) Fetch(c *gin.Context) ([]User, error) {
 	var usersResult []User = []User{}
 	var errResult error = nil
-	iter := this.firebaseAuth.Users(c, "")
+	iter := r.firebaseAuth.Users(c, "")
 	for {
 		user, err := iter.Next()
 		if err == iterator.Done {
@@ -44,4 +49,29 @@ func (this *UserRepository) Fetch(c *gin.Context) ([]User, error) {
 	}
 
 	return usersResult, errResult
+}
+
+// FetchByID return all users by ID
+func (r *Repository) FetchByID(c *gin.Context, ids *map[string]*User) error {
+	var tmp = []auth.UserIdentifier{}
+
+	for id := range *ids {
+		tmp = append(tmp, auth.UIDIdentifier{UID: id})
+	}
+
+	getUsersResult, err := r.firebaseAuth.GetUsers(c, tmp)
+	if err != nil {
+		return err
+	}
+
+	for _, user := range getUsersResult.Users {
+		(*ids)[user.UID] = &User{
+			Id:       user.UID,
+			Name:     user.DisplayName,
+			Email:    user.Email,
+			PhotoUrl: user.PhotoURL,
+		}
+	}
+
+	return nil
 }

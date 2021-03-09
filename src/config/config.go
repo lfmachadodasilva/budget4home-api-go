@@ -64,12 +64,12 @@ func SetupDb() *gorm.DB {
 
 	groupUser1 := group.GroupUser{
 		GroupId: group1.ID,
-		UserId:  "test1",
+		UserId:  "Y615Iymw0fhWBo3wTgOazh7rdIv1",
 	}
 	db.Create(&groupUser1)
 	groupUser2 := group.GroupUser{
 		GroupId: group1.ID,
-		UserId:  "test2",
+		UserId:  "wRUwvDbrqBbIf9DXv25QQ50ASCf2",
 	}
 	db.Create(&groupUser2)
 

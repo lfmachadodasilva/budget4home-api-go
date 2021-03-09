@@ -29,5 +29,4 @@ func NewController(r *gin.RouterGroup, service IUserService) {
 func (this *UserController) Fetch(c *gin.Context) {
 	users, _ := this.service.Fetch(c)
 	c.JSON(200, users)
-	// c.JSON(200, gin.H{"data": labels})
 }
