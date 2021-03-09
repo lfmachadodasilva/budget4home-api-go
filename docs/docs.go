@@ -177,7 +177,29 @@ var doc = `{
                 ],
                 "tags": [
                     "Groups"
-                ]
+                ],
+                "parameters": [
+                    {
+                        "description": "group info",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/group.AddRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/group.Response"
+                            }
+                        }
+                    }
+                }
             },
             "delete": {
                 "security": [
@@ -359,7 +381,7 @@ var doc = `{
                 "group": {
                     "$ref": "#/definitions/group.Group"
                 },
-                "groupId": {
+                "groupID": {
                     "type": "integer"
                 },
                 "id": {
@@ -368,12 +390,26 @@ var doc = `{
                 "label": {
                     "$ref": "#/definitions/label.Label"
                 },
-                "labelId": {
+                "labelID": {
                     "type": "integer"
                 },
                 "name": {
                     "description": "gorm.Model",
                     "type": "string"
+                }
+            }
+        },
+        "group.AddRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -401,24 +437,34 @@ var doc = `{
                     "type": "integer"
                 },
                 "name": {
-                    "description": "gorm.Model",
                     "type": "string"
                 },
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/group.GroupUser"
+                        "$ref": "#/definitions/group.UserGroup"
                     }
                 }
             }
         },
-        "group.GroupUser": {
+        "group.Response": {
             "type": "object",
             "properties": {
-                "groupId": {
+                "id": {
                     "type": "integer"
                 },
-                "userId": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "group.UserGroup": {
+            "type": "object",
+            "properties": {
+                "groupID": {
+                    "type": "integer"
+                },
+                "userID": {
                     "type": "string"
                 }
             }
@@ -429,7 +475,7 @@ var doc = `{
                 "group": {
                     "$ref": "#/definitions/group.Group"
                 },
-                "groupId": {
+                "groupID": {
                     "type": "integer"
                 },
                 "id": {

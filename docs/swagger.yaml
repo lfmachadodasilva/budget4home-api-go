@@ -4,17 +4,26 @@ definitions:
     properties:
       group:
         $ref: '#/definitions/group.Group'
-      groupId:
+      groupID:
         type: integer
       id:
         type: integer
       label:
         $ref: '#/definitions/label.Label'
-      labelId:
+      labelID:
         type: integer
       name:
         description: gorm.Model
         type: string
+    type: object
+  group.AddRequest:
+    properties:
+      name:
+        type: string
+      users:
+        items:
+          type: string
+        type: array
     type: object
   group.FullResponse:
     properties:
@@ -32,25 +41,31 @@ definitions:
       id:
         type: integer
       name:
-        description: gorm.Model
         type: string
       users:
         items:
-          $ref: '#/definitions/group.GroupUser'
+          $ref: '#/definitions/group.UserGroup'
         type: array
     type: object
-  group.GroupUser:
+  group.Response:
     properties:
-      groupId:
+      id:
         type: integer
-      userId:
+      name:
+        type: string
+    type: object
+  group.UserGroup:
+    properties:
+      groupID:
+        type: integer
+      userID:
         type: string
     type: object
   label.Label:
     properties:
       group:
         $ref: '#/definitions/group.Group'
-      groupId:
+      groupID:
         type: integer
       id:
         type: integer
@@ -160,8 +175,22 @@ paths:
     post:
       consumes:
       - application/json
+      parameters:
+      - description: group info
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/group.AddRequest'
       produces:
       - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/group.Response'
+            type: array
       security:
       - ApiKeyAuth: []
       tags:

@@ -27,6 +27,7 @@ import (
 
 func main() {
 	db := config.SetupDb()
+	config.SeedDb(db)
 	app, auth := config.SetupFirebase()
 
 	r := gin.Default()

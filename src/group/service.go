@@ -10,6 +10,7 @@ import (
 type IGroupService interface {
 	Fetch() (res []Group, err error)
 	FetchFull(c *gin.Context) ([]FullResponse, error)
+	Add(c *gin.Context) ([]Response, error)
 }
 
 // Service group service
@@ -44,7 +45,7 @@ func (s *Service) FetchFull(c *gin.Context) ([]FullResponse, error) {
 	users := make(map[string]*user.User)
 	for _, group := range groups {
 		for _, user := range group.Users {
-			users[user.UserId] = nil
+			users[user.UserID] = nil
 		}
 	}
 
@@ -58,7 +59,7 @@ func (s *Service) FetchFull(c *gin.Context) ([]FullResponse, error) {
 	for _, group := range groups {
 		var groupUsers = []*user.User{}
 		for _, user := range group.Users {
-			groupUsers = append(groupUsers, users[user.UserId])
+			groupUsers = append(groupUsers, users[user.UserID])
 		}
 		res = append(res, FullResponse{
 			ID:    group.ID,
@@ -70,4 +71,35 @@ func (s *Service) FetchFull(c *gin.Context) ([]FullResponse, error) {
 	users = nil
 
 	return res, err
+}
+
+// Add add new group
+func (s *Service) Add(c *gin.Context) ([]Response, error) {
+	// TODO validate users
+
+	request := new(AddRequest)
+	err := c.Bind(request)
+	if err != nil {
+		return nil, err
+	}
+
+	var group = Group{
+		Name: request.Name,
+	}
+
+	s.repo.Add(&group)
+
+	var users = []UserGroup{}
+	for _, user := range request.Users {
+		users = append(users, UserGroup{
+			GroupID: group.ID,
+			UserID:  user,
+		})
+	}
+
+	s.repo.AddUserGroup(users)
+	users = nil
+	request = nil
+
+	return nil, nil
 }

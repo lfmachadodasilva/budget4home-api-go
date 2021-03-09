@@ -18,6 +18,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
+// SetupDb setup, configure database and seed with basic data
 func SetupDb() *gorm.DB {
 	if len(os.Getenv("DATABASE")) == 0 {
 		// set default connection string
@@ -38,10 +39,17 @@ func SetupDb() *gorm.DB {
 		return nil
 	}
 
-	db.Migrator().DropTable(&label.Label{}, &expense.Expense{}, &group.Group{}, &group.GroupUser{})
+	db.AutoMigrate(&label.Label{}, &expense.Expense{}, &group.Group{}, &group.UserGroup{})
 
-	db.AutoMigrate(&label.Label{}, &expense.Expense{}, &group.Group{}, &group.GroupUser{})
-	db.SetupJoinTable(&group.Group{}, "Users", &group.GroupUser{})
+	return db
+}
+
+// SeedDb seed database
+func SeedDb(db *gorm.DB) {
+	db.Migrator().DropTable(&label.Label{}, &expense.Expense{}, &group.Group{}, &group.UserGroup{})
+
+	db.AutoMigrate(&label.Label{}, &expense.Expense{}, &group.Group{}, &group.UserGroup{})
+	db.SetupJoinTable(&group.Group{}, "Users", &group.UserGroup{})
 
 	// seed
 	group1 := group.Group{
@@ -51,31 +59,30 @@ func SetupDb() *gorm.DB {
 
 	label1 := label.Label{
 		Name:    "Label",
-		GroupId: group1.ID,
+		GroupID: group1.ID,
 	}
 	db.Create(&label1)
 
 	expense1 := expense.Expense{
 		Name:    "Expense 1",
-		LabelId: label1.ID,
-		GroupId: group1.ID,
+		LabelID: label1.ID,
+		GroupID: group1.ID,
 	}
 	db.Create(&expense1)
 
-	groupUser1 := group.GroupUser{
-		GroupId: group1.ID,
-		UserId:  "Y615Iymw0fhWBo3wTgOazh7rdIv1",
+	groupUser1 := group.UserGroup{
+		GroupID: group1.ID,
+		UserID:  "Y615Iymw0fhWBo3wTgOazh7rdIv1",
 	}
 	db.Create(&groupUser1)
-	groupUser2 := group.GroupUser{
-		GroupId: group1.ID,
-		UserId:  "wRUwvDbrqBbIf9DXv25QQ50ASCf2",
+	groupUser2 := group.UserGroup{
+		GroupID: group1.ID,
+		UserID:  "wRUwvDbrqBbIf9DXv25QQ50ASCf2",
 	}
 	db.Create(&groupUser2)
-
-	return db
 }
 
+// SetupFirebase setup firebase
 func SetupFirebase() (*firebase.App, *auth.Client) {
 	if len(os.Getenv("FIREBASE_ADMIN")) == 0 {
 		// set default connection string

@@ -5,14 +5,15 @@ import (
 	"budget4home/src/label"
 )
 
+// Expense table
 type Expense struct {
 	ID uint `gorm:"primary_key"`
 	// gorm.Model
 	Name string
 
-	LabelId uint
-	GroupId uint
+	LabelID uint
+	GroupID uint
 
-	Label label.Label `gorm:"foreignkey:LabelId"`
-	Group group.Group `gorm:"foreignkey:GroupId"`
+	Label label.Label `gorm:"foreignkey:LabelID"`
+	Group group.Group `gorm:"foreignkey:GroupID"`
 }

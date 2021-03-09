@@ -1,14 +1,15 @@
 package group
 
+// Group group db table
 type Group struct {
-	ID uint `gorm:"primary_key"`
-	// gorm.Model
+	ID   uint `gorm:"primary_key"`
 	Name string
 
-	Users []GroupUser `gorm:"foreignKey:GroupId"`
+	Users []UserGroup `gorm:"foreignKey:GroupID"`
 }
 
-type GroupUser struct {
-	GroupId uint   `gorm:"primary_key"`
-	UserId  string `gorm:"primary_key"`
+// UserGroup group user many-to-many table
+type UserGroup struct {
+	GroupID uint   `gorm:"primary_key"`
+	UserID  string `gorm:"primary_key"`
 }

@@ -4,11 +4,12 @@ import (
 	"budget4home/src/group"
 )
 
+// Label table
 type Label struct {
 	ID uint `gorm:"primaryKey"`
 	// gorm.Model
 	Name string
 
-	GroupId uint
-	Group   group.Group `gorm:"foreignKey:GroupId"`
+	GroupID uint
+	Group   group.Group `gorm:"foreignKey:GroupID"`
 }

@@ -6,12 +6,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type GroupController struct {
+// Controller group controller
+type Controller struct {
 	service IGroupService
 }
 
+// NewController constructor
 func NewController(r *gin.RouterGroup, service IGroupService) {
-	controller := &GroupController{
+	controller := &Controller{
 		service: service,
 	}
 	r.GET("/groups", middleware.AuthMiddleware, controller.Get)
@@ -21,6 +23,7 @@ func NewController(r *gin.RouterGroup, service IGroupService) {
 	r.DELETE("/groups", middleware.AuthMiddleware, controller.Delete)
 }
 
+// Get get all groups
 // GetGroups godoc
 // @Security ApiKeyAuth
 // @Tags Groups
@@ -28,50 +31,52 @@ func NewController(r *gin.RouterGroup, service IGroupService) {
 // @Produce json
 // @Success 200 {object} []group.Group
 // @Router /groups [get]
-func (this *GroupController) Get(c *gin.Context) {
-	groups, _ := this.service.Fetch()
+func (con *Controller) Get(c *gin.Context) {
+	groups, _ := con.service.Fetch()
 	c.JSON(200, groups)
 }
 
-// GetFull get all groups full
-// GetGroupsFull godoc
+// GetFull godoc
 // @Security ApiKeyAuth
 // @Tags Groups
 // @Accept json
 // @Produce json
 // @Success 200 {object} []group.FullResponse
 // @Router /groups/full [get]
-func (con *GroupController) GetFull(c *gin.Context) {
+func (con *Controller) GetFull(c *gin.Context) {
 	groups, _ := con.service.FetchFull(c)
 	c.JSON(200, groups)
 }
 
-// PostGroups godoc
+// Post godoc
 // @Security ApiKeyAuth
 // @Tags Groups
 // @Accept json
 // @Produce json
+// @Param group body group.AddRequest true "group info"
+// @Success 200 {object} []group.Response
 // @Router /groups [post]
-func (this *GroupController) Post(c *gin.Context) {
+func (con *Controller) Post(c *gin.Context) {
+	con.service.Add(c)
 	c.JSON(200, nil)
 }
 
-// PutGroups godoc
+// Put godoc
 // @Security ApiKeyAuth
 // @Tags Groups
 // @Accept json
 // @Produce json
 // @Router /groups [put]
-func (this *GroupController) Put(c *gin.Context) {
+func (con *Controller) Put(c *gin.Context) {
 	c.JSON(200, nil)
 }
 
-// DeleteGroups godoc
+// Delete godoc
 // @Security ApiKeyAuth
 // @Tags Groups
 // @Accept json
 // @Produce json
 // @Router /groups [delete]
-func (this *GroupController) Delete(c *gin.Context) {
+func (con *Controller) Delete(c *gin.Context) {
 	c.JSON(200, nil)
 }
