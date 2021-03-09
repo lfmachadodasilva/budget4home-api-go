@@ -24,7 +24,15 @@
                 ],
                 "tags": [
                     "Expenses"
-                ]
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/expense.Expense"
+                        }
+                    }
+                }
             },
             "put": {
                 "security": [
@@ -108,7 +116,15 @@
                 ],
                 "tags": [
                     "Groups"
-                ]
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/group.Group"
+                        }
+                    }
+                }
             },
             "put": {
                 "security": [
@@ -179,6 +195,11 @@
         },
         "/labels": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -190,14 +211,19 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "ok",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/label.Label"
                         }
                     }
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -209,6 +235,11 @@
                 ]
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -220,6 +251,11 @@
                 ]
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -233,6 +269,11 @@
         },
         "/labels/full": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -264,11 +305,104 @@
                 "summary": "Show a list of users",
                 "responses": {
                     "200": {
-                        "description": "ok",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/user.User"
+                            }
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "expense.Expense": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "$ref": "#/definitions/group.Group"
+                },
+                "groupId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "label": {
+                    "$ref": "#/definitions/label.Label"
+                },
+                "labelId": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "gorm.Model",
+                    "type": "string"
+                }
+            }
+        },
+        "group.Group": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "gorm.Model",
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/group.GroupUser"
+                    }
+                }
+            }
+        },
+        "group.GroupUser": {
+            "type": "object",
+            "properties": {
+                "groupId": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "label.Label": {
+            "type": "object",
+            "properties": {
+                "group": {
+                    "$ref": "#/definitions/group.Group"
+                },
+                "groupId": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "gorm.Model",
+                    "type": "string"
+                }
+            }
+        },
+        "user.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "photoUrl": {
+                    "type": "string"
                 }
             }
         }

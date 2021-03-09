@@ -1,13 +1,14 @@
 package group
 
 type Group struct {
-	Id   int `gorm:"primary_key"`
+	ID uint `gorm:"primary_key"`
+	// gorm.Model
 	Name string
 
-	Users []GroupUser `gorm:"foreignKey:GroupId;references:id"`
+	Users []GroupUser `gorm:"foreignKey:GroupId"`
 }
 
 type GroupUser struct {
-	GroupId int    `gorm:"primary_key"`
+	GroupId uint   `gorm:"primary_key"`
 	UserId  string `gorm:"primary_key"`
 }

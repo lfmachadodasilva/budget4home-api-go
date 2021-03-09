@@ -15,6 +15,7 @@ require (
 	github.com/go-delve/delve v1.6.0 // indirect
 	github.com/go-openapi/spec v0.20.3 // indirect
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
+	github.com/gofrs/uuid v4.0.0+incompatible // indirect
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/google/go-cmp v0.5.5 // indirect
 	github.com/jcmturner/gokrb5/v8 v8.2.0 // indirect
@@ -28,6 +29,7 @@ require (
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14 // indirect
 	github.com/swaggo/gin-swagger v1.3.0 // indirect
 	github.com/swaggo/swag v1.7.0 // indirect
+	github.com/swaggo/swag/example/celler v0.0.0-20210301202009-19e52371f9b8 // indirect
 	github.com/ugorji/go v1.2.4 // indirect
 	github.com/urfave/cli v1.20.0 // indirect
 	go.opencensus.io v0.23.0 // indirect

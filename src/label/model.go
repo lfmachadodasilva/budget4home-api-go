@@ -5,9 +5,10 @@ import (
 )
 
 type Label struct {
-	Id   int `gorm:"primaryKey"`
+	ID uint `gorm:"primaryKey"`
+	// gorm.Model
 	Name string
 
-	GroupId int
+	GroupId uint
 	Group   group.Group `gorm:"foreignKey:GroupId"`
 }

@@ -1,4 +1,63 @@
 basePath: /api
+definitions:
+  expense.Expense:
+    properties:
+      group:
+        $ref: '#/definitions/group.Group'
+      groupId:
+        type: integer
+      id:
+        type: integer
+      label:
+        $ref: '#/definitions/label.Label'
+      labelId:
+        type: integer
+      name:
+        description: gorm.Model
+        type: string
+    type: object
+  group.Group:
+    properties:
+      id:
+        type: integer
+      name:
+        description: gorm.Model
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/group.GroupUser'
+        type: array
+    type: object
+  group.GroupUser:
+    properties:
+      groupId:
+        type: integer
+      userId:
+        type: string
+    type: object
+  label.Label:
+    properties:
+      group:
+        $ref: '#/definitions/group.Group'
+      groupId:
+        type: integer
+      id:
+        type: integer
+      name:
+        description: gorm.Model
+        type: string
+    type: object
+  user.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      photoUrl:
+        type: string
+    type: object
 host: localhost:5000
 info:
   contact: {}
@@ -22,6 +81,11 @@ paths:
       - application/json
       produces:
       - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/expense.Expense'
       security:
       - ApiKeyAuth: []
       tags:
@@ -69,6 +133,11 @@ paths:
       - application/json
       produces:
       - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/group.Group'
       security:
       - ApiKeyAuth: []
       tags:
@@ -107,6 +176,8 @@ paths:
       - application/json
       produces:
       - application/json
+      security:
+      - ApiKeyAuth: []
       tags:
       - Labels
     get:
@@ -116,9 +187,11 @@ paths:
       - application/json
       responses:
         "200":
-          description: ok
+          description: OK
           schema:
-            type: string
+            $ref: '#/definitions/label.Label'
+      security:
+      - ApiKeyAuth: []
       tags:
       - Labels
     post:
@@ -126,6 +199,8 @@ paths:
       - application/json
       produces:
       - application/json
+      security:
+      - ApiKeyAuth: []
       tags:
       - Labels
     put:
@@ -133,6 +208,8 @@ paths:
       - application/json
       produces:
       - application/json
+      security:
+      - ApiKeyAuth: []
       tags:
       - Labels
   /labels/full:
@@ -141,6 +218,8 @@ paths:
       - application/json
       produces:
       - application/json
+      security:
+      - ApiKeyAuth: []
       tags:
       - Labels
   /users:
@@ -152,9 +231,11 @@ paths:
       - application/json
       responses:
         "200":
-          description: ok
+          description: OK
           schema:
-            type: string
+            items:
+              $ref: '#/definitions/user.User'
+            type: array
       security:
       - ApiKeyAuth: []
       summary: Show a list of users

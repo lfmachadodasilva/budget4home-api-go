@@ -4,13 +4,17 @@ import (
 	"budget4home/src/middleware"
 
 	"github.com/gin-gonic/gin"
+	_ "gorm.io/gorm"
 )
 
 type ExpenseController struct {
+	service IExpenseService
 }
 
-func NewController(r *gin.RouterGroup) {
-	controller := &ExpenseController{}
+func NewController(r *gin.RouterGroup, service IExpenseService) {
+	controller := &ExpenseController{
+		service: service,
+	}
 	r.GET("/expenses", middleware.AuthMiddleware, controller.Get)
 	r.GET("/expenses/full", middleware.AuthMiddleware, controller.GetFull)
 	r.POST("/expenses", middleware.AuthMiddleware, controller.Post)
@@ -23,9 +27,11 @@ func NewController(r *gin.RouterGroup) {
 // @Tags Expenses
 // @Accept json
 // @Produce json
+// @Success 200 {object} []expense.Expense
 // @Router /expenses [get]
 func (this *ExpenseController) Get(c *gin.Context) {
-	c.JSON(200, nil)
+	expenses, _ := this.service.Fetch()
+	c.JSON(200, expenses)
 }
 
 // GetExpensesFull godoc

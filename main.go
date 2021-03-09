@@ -49,11 +49,15 @@ func main() {
 	}
 
 	{ // expenses
-		expense.NewController(api)
+		repo := expense.NewRepository(db)
+		service := expense.NewService(repo)
+		expense.NewController(api, service)
 	}
 
 	{ // groups
-		group.NewController(api)
+		repo := group.NewRepository(db)
+		service := group.NewService(repo)
+		group.NewController(api, service)
 	}
 
 	{ // users

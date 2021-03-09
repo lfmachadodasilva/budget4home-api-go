@@ -7,10 +7,13 @@ import (
 )
 
 type GroupController struct {
+	service IGroupService
 }
 
-func NewController(r *gin.RouterGroup) {
-	controller := &GroupController{}
+func NewController(r *gin.RouterGroup, service IGroupService) {
+	controller := &GroupController{
+		service: service,
+	}
 	r.GET("/groups", middleware.AuthMiddleware, controller.Get)
 	r.GET("/groups/full", middleware.AuthMiddleware, controller.GetFull)
 	r.POST("/groups", middleware.AuthMiddleware, controller.Post)
@@ -23,9 +26,11 @@ func NewController(r *gin.RouterGroup) {
 // @Tags Groups
 // @Accept json
 // @Produce json
+// @Success 200 {object} []group.Group
 // @Router /groups [get]
 func (this *GroupController) Get(c *gin.Context) {
-	c.JSON(200, nil)
+	groups, _ := this.service.Fetch()
+	c.JSON(200, groups)
 }
 
 // GetGroupsFull godoc

@@ -24,7 +24,7 @@ func NewController(r *gin.RouterGroup, service IUserService) {
 // @Tags Users
 // @Accept  json
 // @Produce  json
-// @Success 200 {string} string "ok"
+// @Success 200 {object} []user.User
 // @Router /users [get]
 func (this *UserController) Fetch(c *gin.Context) {
 	users, _ := this.service.Fetch(c)

@@ -6,13 +6,16 @@ import (
 	"budget4home/src/label"
 	"context"
 	"fmt"
+	"log"
 	"os"
+	"time"
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 	"google.golang.org/api/option"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 func SetupDb() *gorm.DB {
@@ -20,16 +23,55 @@ func SetupDb() *gorm.DB {
 		// set default connection string
 		os.Setenv("DATABASE", "host=localhost port=5432 database=postgres user=postgres password=postgres sslmode=disable")
 	}
-	db, err := gorm.Open(postgres.Open(os.Getenv("DATABASE")), &gorm.Config{})
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold: time.Second, // Slow SQL threshold
+			LogLevel:      logger.Info, // Log level
+			Colorful:      true,        // Disable color
+		},
+	)
+
+	db, err := gorm.Open(postgres.Open(os.Getenv("DATABASE")), &gorm.Config{Logger: newLogger})
 	if err != nil {
 		fmt.Println("Error starting db")
 		return nil
 	}
 
-	db.AutoMigrate(&label.Label{})
-	db.AutoMigrate(&expense.Expense{})
-	db.AutoMigrate(&group.Group{})
-	db.AutoMigrate(&group.GroupUser{})
+	db.Migrator().DropTable(&label.Label{}, &expense.Expense{}, &group.Group{}, &group.GroupUser{})
+
+	db.AutoMigrate(&label.Label{}, &expense.Expense{}, &group.Group{}, &group.GroupUser{})
+	db.SetupJoinTable(&group.Group{}, "Users", &group.GroupUser{})
+
+	// seed
+	group1 := group.Group{
+		Name: "Group 1",
+	}
+	db.Create(&group1)
+
+	label1 := label.Label{
+		Name:    "Label",
+		GroupId: group1.ID,
+	}
+	db.Create(&label1)
+
+	expense1 := expense.Expense{
+		Name:    "Expense 1",
+		LabelId: label1.ID,
+		GroupId: group1.ID,
+	}
+	db.Create(&expense1)
+
+	groupUser1 := group.GroupUser{
+		GroupId: group1.ID,
+		UserId:  "test1",
+	}
+	db.Create(&groupUser1)
+	groupUser2 := group.GroupUser{
+		GroupId: group1.ID,
+		UserId:  "test2",
+	}
+	db.Create(&groupUser2)
 
 	return db
 }
